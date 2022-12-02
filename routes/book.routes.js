@@ -6,7 +6,7 @@ import { BookModel } from "../model/book.model.js";
 
 const bookRouter = express.Router();
 
-bookRouter.post("/book", isAdmin, async (req, res) => {
+bookRouter.post("/book", attachCurrentUser, isAdmin, async (req, res) => {
   try {
     const { title, author, synopsis, releaseYear, genre, coverImage } = req.body;
 
@@ -31,7 +31,7 @@ bookRouter.post("/book", isAdmin, async (req, res) => {
   }
 });
 
-bookRouter.get("/book", isAuth, async (req, res) => {
+bookRouter.get("/book", attachCurrentUser, isAuth, async (req, res) => {
     try {
        
       const bookList = await BookModel.find();
@@ -43,7 +43,7 @@ bookRouter.get("/book", isAuth, async (req, res) => {
     }
   });
 
-  bookRouter.get("/book/:id", isAuth, async (req, res) => {
+  bookRouter.get("/book/:id", attachCurrentUser, isAuth, async (req, res) => {
     try {
       const _id = req.params.id 
       const book = await BookModel.findById(_id);
@@ -57,7 +57,7 @@ bookRouter.get("/book", isAuth, async (req, res) => {
     }
   });
 
-  bookRouter.patch("/book/:id", isAdmin, async (req, res) => {
+  bookRouter.patch("/book/:id", attachCurrentUser, isAdmin, async (req, res) => {
     try {
       const _id = req.params.id 
       const book = await BookModel.findById(_id);
@@ -73,7 +73,7 @@ bookRouter.get("/book", isAuth, async (req, res) => {
     }
   });
 
-  bookRouter.delete("/book/:id", isAdmin, async (req, res) => {
+  bookRouter.delete("/book/:id", attachCurrentUser, isAdmin, async (req, res) => {
     try {
       const _id = req.params.id 
       const book = await BookModel.findById(_id);
