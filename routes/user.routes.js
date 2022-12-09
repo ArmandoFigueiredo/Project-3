@@ -13,7 +13,14 @@ const userRouter = express.Router();
 
 userRouter.post("/signup", async (req, res) => {
   try {
-    const { password } = req.body;
+    const { password, email } = req.body;
+    const user = await UserModel.findOne({ email: email });
+
+    if(user){
+      return res.status(400).json({
+        msg: "Email já cadastrado.",
+      });
+    }
 
     if (
       !password ||
